@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>24時間SVG時計</title>
+    <style>
+        svg { border: 1px solid black; width: 400px; height: 400px; }
+    </style>
+</head>
+<body>
+    <svg viewBox="0 0 400 400">
+        <circle cx="200" cy="200" r="150" stroke="black" fill="none" />
+        <line id="hourLine" x1="200" y1="200" x2="200" y2="50" stroke="red" stroke-width="2" />
+    </svg>
+    <script>
+        const hourLine = document.getElementById('hourLine');
+
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+            const angle = (hours / 24) * 360 - 90; // 24時間で360度、-90で12時が上
+
+            // 角度から座標を計算
+            const radians = angle * Math.PI / 180;
+            const x2 = 200 + 150 * Math.cos(radians);
+            const y2 = 200 + 150 * Math.sin(radians);
+
+            // ラインを更新
+            hourLine.setAttribute('x2', x2);
+            hourLine.setAttribute('y2', y2);
+
+            // 毎フレーム呼び出し
+            requestAnimationFrame(updateClock);
+        }
+
+        updateClock();
+    </script>
+</body>
+</html>
